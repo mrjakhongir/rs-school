@@ -251,3 +251,150 @@ img {
     transform: scaleX(1);
   }
 }
+
+/* FOOTER */
+
+#contacts {
+  padding-top: 10rem;
+  padding-bottom: 4rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.footer__inner {
+  background: var(--bg-container);
+  border-radius: 4rem;
+  padding: 6rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.footer__title {
+  color: var(--text-light);
+  margin-bottom: 4rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.twitter {
+  background: url("../assets/images/icons/twitter-light.svg");
+}
+
+.instagram {
+  background: url("../assets/images/icons/instagram-light.svg");
+}
+
+.facebook {
+  background: url("../assets/images/icons/facebook-light.svg");
+}
+
+.social-link {
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--border-light);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.social-link > div {
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 24px;
+  height: 24px;
+}
+
+.footer__subtitle {
+  font-size: 2.4rem;
+  line-height: 3rem;
+  margin-bottom: 4rem;
+}
+
+.footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.contacts-link,
+.address-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+
+.contacts-link img,
+.address-link img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 768px) {
+  .footer__inner {
+    padding: 10rem 6rem;
+    gap: 10rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__inner {
+    flex-direction: row;
+    align-items: center;
+    padding: 10rem;
+  }
+
+  .footer__inner > div {
+    flex: 1;
+  }
+
+  .social-link:hover {
+    cursor: pointer;
+    border: 1px solid var(--bg-body);
+    background-color: var(--bg-body);
+  }
+
+  .social-link:hover .twitter {
+    background: url("../assets/images/icons/twitter-dark.svg");
+  }
+
+  .social-link:hover .instagram {
+    background: url("../assets/images/icons/instagram-dark.svg");
+  }
+
+  .social-link:hover .facebook {
+    background: url("../assets/images/icons/facebook-dark.svg");
+  }
+
+  .contacts-link {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .contacts-link::after {
+    position: absolute;
+    bottom: -2px;
+    content: "";
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text-light);
+    display: block;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .contacts-link:hover::after {
+    transform: scaleX(1);
+  }
+}
