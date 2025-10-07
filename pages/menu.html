@@ -33,6 +33,7 @@
               <li><a href="../index.html#about">About</a></li>
               <li><a href="../index.html#mobile-app">Mobile app</a></li>
               <li><a href="#contacts">Contact us</a></li>
+              <li><a href="#contacts">Contact us</a></li>
             </ul>
           </nav>
           <a class="menu-link" href="#menu">
@@ -50,6 +51,45 @@
         </div>
       </div>
     </header>
+
+    <main>
+      <section id="menu">
+        <div class="container">
+          <div class="menu__inner">
+            <h1 class="section-title menu__title">
+              Behind each of our cups hides an <span>amazing surprise</span>
+            </h1>
+            <div class="menu__tabs">
+              <a
+                class="menu__tab menu__tab--active"
+                href="#coffee"
+                data-category="coffee"
+              >
+                <span>☕</span>
+                <span>Coffee</span>
+              </a>
+              <a class="menu__tab" href="#tea" data-category="tea">
+                <span>🫖</span>
+                <span>Tea</span>
+              </a>
+              <a class="menu__tab" href="#dessert" data-category="dessert">
+                <span>🍰</span>
+                <span>Dessert</span>
+              </a>
+            </div>
+            <div class="menu__items"></div>
+            <div class="refresh-button">
+              <img
+                src="../assets/images/icons/refresh.svg"
+                alt="refresh"
+                width="24"
+                height="24"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <footer id="contacts">
       <div class="container">
@@ -88,5 +128,9 @@
         </div>
       </div>
     </footer>
+
+    <section class="modal"></section>
+    <script src="../scripts/index.js"></script>
+    <script src="../scripts/menu.js"></script>
   </body>
 </html>
