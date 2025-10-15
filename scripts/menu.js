@@ -206,6 +206,12 @@ function closeModal() {
 	enableScroll()
 }
 
+MODAL.addEventListener('click', function (e) {
+	if (e.target === MODAL) {
+		closeModal();
+	}
+});
+
 // disable scroll
 
 function disableScroll() {
