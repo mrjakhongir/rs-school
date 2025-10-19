@@ -39,6 +39,7 @@
 
   display: flex;
   align-items: center;
+  background-color: transparent;
   gap: 0.8rem;
 }
 
@@ -94,6 +95,7 @@
 .image-wrapper {
   overflow: hidden;
   border-radius: 4rem;
+  height: 310px;
 }
 
 .image-wrapper img {
