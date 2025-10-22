@@ -5,7 +5,7 @@ import setupHome from "./pages/home/setup-home";
 import { LoginPage } from "./pages/login";
 import { MenuPage } from "./pages/menu";
 import setupMenu from "./pages/menu/setup-menu";
-import { RegisterPage } from "./pages/register";
+import { RegsiterPage } from "./pages/register";
 import { setupHeader } from "./setups/header";
 import "./style.css";
 
@@ -14,8 +14,8 @@ const routes: Record<string, () => string> = {
   "/home": HomePage,
   "/menu": MenuPage,
   "/cart": CartPage,
-  "/register": RegisterPage,
   "/login": LoginPage,
+  "/register": RegsiterPage,
 };
 
 export function navigateTo(url: string) {
