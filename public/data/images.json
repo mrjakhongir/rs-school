@@ -1,0 +1,88 @@
+{
+  "coffee": [
+    {
+      "id": 1,
+      "img": "./assets/images/pictures/coffee-1.jpg"
+    },
+    {
+      "id": 2,
+      "img": "./assets/images/pictures/coffee-2.jpg"
+    },
+    {
+      "id": 3,
+      "img": "./assets/images/pictures/coffee-3.jpg"
+    },
+    {
+      "id": 4,
+      "img": "./assets/images/pictures/coffee-4.jpg"
+    },
+    {
+      "id": 5,
+      "img": "./assets/images/pictures/coffee-5.jpg"
+    },
+    {
+      "id": 6,
+      "img": "./assets/images/pictures/coffee-6.jpg"
+    },
+    {
+      "id": 7,
+      "img": "./assets/images/pictures/coffee-7.jpg"
+    },
+    {
+      "id": 8,
+      "img": "./assets/images/pictures/coffee-8.jpg"
+    }
+  ],
+  "tea": [
+    {
+      "id": 1,
+      "img": "./assets/images/pictures/tea-1.png"
+    },
+    {
+      "id": 2,
+      "img": "./assets/images/pictures/tea-2.png"
+    },
+    {
+      "id": 3,
+      "img": "./assets/images/pictures/tea-3.png"
+    },
+    {
+      "id": 4,
+      "img": "./assets/images/pictures/tea-4.png"
+    }
+  ],
+  "dessert": [
+    {
+      "id": 1,
+      "img": "./assets/images/pictures/dessert-1.png"
+    },
+    {
+      "id": 2,
+      "img": "./assets/images/pictures/dessert-2.png"
+    },
+    {
+      "id": 3,
+      "img": "./assets/images/pictures/dessert-3.png"
+    },
+    {
+      "id": 4,
+      "img": "./assets/images/pictures/dessert-4.png"
+    },
+    {
+      "id": 5,
+      "img": "./assets/images/pictures/dessert-5.png"
+    },
+    {
+      "id": 6,
+      "img": "./assets/images/pictures/dessert-6.png"
+    },
+    {
+      "id": 7,
+      "img": "./assets/images/pictures/dessert-7.png"
+    },
+    {
+      "id": 8,
+      "img": "./assets/images/pictures/dessert-8.png"
+    }
+  ]
+}
