@@ -167,7 +167,8 @@ export default function setupMenu() {
             <h2>Something went wrong. Please, try again</h2>
           </div>
         `;
-        closeModal();
+        MODAL.classList.remove("modal-open");
+        enableScroll();
       }
 
       const data: { data: ProductItem } = await res.json();
