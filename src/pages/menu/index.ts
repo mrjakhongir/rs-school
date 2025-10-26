@@ -4,6 +4,7 @@ export function MenuPage() {
   return `<section id="menu">
             <div class="container">
               <div class="menu__inner">
+              <div id='error'></div>
                 <h1 class="section-title menu__title">
                   Behind each of our cups hides an <span>amazing surprise</span>
                 </h1>

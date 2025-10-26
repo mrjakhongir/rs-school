@@ -1,5 +1,17 @@
+import images from "../../../public/data/images.json";
 import { disableScroll, enableScroll } from "../../utils/utils";
-import type { Product } from "./menu";
+import type { ProductItem } from "./menu";
+
+type Category = "coffee" | "tea" | "dessert";
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  discountPrice: string;
+  category: Category;
+}
 
 export default function setupMenu() {
   const REFRESH_BTN = document.querySelector(
@@ -11,6 +23,7 @@ export default function setupMenu() {
   ) as NodeListOf<HTMLAnchorElement>;
 
   let count = 4;
+  let startIndex = 0;
   let currentCategory = "coffee";
   let menuItems: Product[] | null = null;
   let currentWidth: number = window.innerWidth;
@@ -22,17 +35,41 @@ export default function setupMenu() {
   }
 
   async function renderMenu() {
-    menuItems = await getData();
-    filterItemsByCategory(currentCategory);
+    try {
+      MENU_ITEMS.classList.add("menu__items--loading");
+      MENU_ITEMS.innerHTML = `
+        <div class="loader">
+          <div class='spinner'></div>
+        </div>
+      `;
+
+      const res = await fetch(
+        "https://6kt29kkeub.execute-api.eu-central-1.amazonaws.com/products"
+      );
+
+      if (!res.ok) {
+        MENU_ITEMS.innerHTML = `
+        <div class="error">
+          <h2>Something went wrong. Please, refresh the page</h2>
+        </div>
+      `;
+
+        REFRESH_BTN.classList.add("refresh-button--hide");
+
+        return;
+      }
+
+      const data = await res.json();
+      menuItems = data.data;
+      MENU_ITEMS.innerHTML = "";
+      MENU_ITEMS.classList.remove("menu__items--loading");
+      filterItemsByCategory(currentCategory);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  async function getData() {
-    const response = await fetch("./data/data.json");
-    const data = await response.json();
-    return data;
-  }
-
-  function filterItemsByCategory(category: string, startIndex = 0) {
+  function filterItemsByCategory(category: string) {
     if (!menuItems) return;
     const REFRESH_BTN = document.querySelector(
       ".refresh-button"
@@ -40,7 +77,7 @@ export default function setupMenu() {
 
     const currentData = menuItems.filter((item) => item.category === category);
     if (currentWidth >= 1024) {
-      count = 8;
+      count = currentData.length;
       REFRESH_BTN.classList.add("refresh-button--hide");
     } else {
       if (currentData.length <= count) {
@@ -49,20 +86,24 @@ export default function setupMenu() {
         REFRESH_BTN.classList.remove("refresh-button--hide");
       }
     }
-    const data = currentData.slice(startIndex, count);
+    const data = currentData.slice(
+      startIndex,
+      Math.min(count, currentData.length)
+    );
+
     populateItems(data);
   }
 
   function populateItems(data: Product[]) {
     const MENU_ITEMS = document.querySelector(".menu__items")!;
     data.map((item, index) => {
+      const img = images[item.category].find((img) => img.id === item.id);
       const menuItem = document.createElement("div");
       menuItem.className = "menu__item populate-item";
       menuItem.setAttribute("key", index.toString());
-
       menuItem.innerHTML = `
             <div class="image-wrapper">
-                <img src=${item.img} alt=${item.name} />
+              <img src=${img?.img} alt=${item.name} />
             </div>
             <div class="menu__item-info">
                 <h2 class="menu__item_title">${item.name}</h2>
@@ -72,15 +113,15 @@ export default function setupMenu() {
                 <span class="menu__item_price">$${item.price}</span>
             </div>
         `;
-      menuItem.addEventListener("click", () => openModal(item.name));
+      menuItem.addEventListener("click", () => openModal(item.id));
       MENU_ITEMS.appendChild(menuItem);
     });
   }
 
   function loadMore() {
     count += 4;
-    filterItemsByCategory(currentCategory, 4);
-    REFRESH_BTN.classList.add("refresh-button--hide");
+    startIndex += 4;
+    filterItemsByCategory(currentCategory);
   }
 
   MENU_TABS.forEach((tab) => {
@@ -92,7 +133,7 @@ export default function setupMenu() {
       count = 4;
       currentCategory = tab.dataset.category || "coffee";
 
-      filterItemsByCategory(currentCategory, 0);
+      filterItemsByCategory(currentCategory);
     });
   });
 
@@ -101,17 +142,54 @@ export default function setupMenu() {
   // MODAL
   const MODAL = document.querySelector(".modal")!;
 
-  function openModal(name: string) {
+  async function openModal(id: number) {
     disableScroll();
+    const ERROR_EL = document.querySelector("#error")!;
 
-    if (!menuItems) return;
+    try {
+      MODAL.classList.add("modal-open");
 
-    const selectedItem = menuItems.find((item) => item.name === name)!;
-    MODAL.classList.add("modal-open");
-    MODAL.innerHTML = `
+      MODAL.innerHTML = `
+        <div class='loader'>
+          <div class='spinner'></div>
+        </div>
+      `;
+
+      ERROR_EL.innerHTML = "";
+
+      const res = await fetch(
+        `https://6kt29kkeub.execute-api.eu-central-1.amazonaws.com/products/${id}`
+      );
+
+      if (!res.ok) {
+        ERROR_EL.innerHTML = `
+          <div class="error">
+            <h2>Something went wrong. Please, try again</h2>
+          </div>
+        `;
+        closeModal();
+      }
+
+      const data: { data: ProductItem } = await res.json();
+      const selectedItem = data.data;
+
+      const img = images[selectedItem.category].find(
+        (img) => img.id === selectedItem.id
+      );
+
+      let sizePrice = parseFloat(selectedItem.price);
+      let additivesPrice = 0;
+      let size = selectedItem.sizes.s.size;
+      let sizeChar = "s";
+      let additives: string[] = [];
+
+      MODAL.innerHTML = `
         <div class="modal-content">
+            <button class="modal-close"">
+              <img src='/public/assets/images/icons/close.svg' alt='close' />
+            </button>
             <div class="modal__img">
-                <img src=${selectedItem.img} alt=${selectedItem.name} />
+                <img src=${img?.img} alt=${selectedItem.name} />
             </div>
             <div class="modal__info">
                 <div>
@@ -124,7 +202,7 @@ export default function setupMenu() {
                     <span class="filter-title">Size</span>
                     <div class="filter-btns">
                     ${Object.entries(selectedItem.sizes)
-                      .map(([label, { size, "add-price": price }]) => {
+                      .map(([label, { size, price }]) => {
                         return `
                         <label class="filter-btn" for="size-${label}">
                             <span>${label.toUpperCase()}</span>
@@ -134,8 +212,16 @@ export default function setupMenu() {
                               id="size-${label}"
                               name="size"
                               data-price="${price}"
+                              data-size="${size}"
+                              data-sizeChar="${label}"
                               ${label === "s" ? "checked" : ""}
                             />
+                            <div class="tooltip">
+                              <p>Price: $${price}</p>
+                              <p>Discount price: $${
+                                selectedItem.discountPrice || 0
+                              }</p>
+                            </div>
                         </label>
                     `;
                       })
@@ -146,12 +232,23 @@ export default function setupMenu() {
                     <span class="filter-title">Additives</span>
                     <div class="filter-btns">
                         ${selectedItem.additives
-                          .map(({ name, "add-price": price }, index) => {
+                          .map(({ name, price }, index) => {
                             return `
                                     <label class="filter-btn" for="additive-${index}">
                                         <span>${index + 1}</span>
                                         <span>${name}</span>
-                                        <input type="checkbox" id="additive-${index}" data-price="${price}" />
+                                        <input type="checkbox"
+                                          id="additive-${index}"
+                                          data-price="${price}"
+                                          data-name="${name}" 
+                                        />
+
+                                        <div class="tooltip">
+                                          <p>Price: $${price}</p>
+                                          <p>Discount price: $${
+                                            selectedItem.discountPrice || 0
+                                          }</p>
+                                        </div>
                                     </label>
                                 `;
                           })
@@ -175,80 +272,111 @@ export default function setupMenu() {
                         favorite coffee with up to 20% discount.
                     </p>
                 </div>
-                <button class="modal__close_btn">Close</button>
+                <button class="modal__add_to_cart">Add to cart</button>
             </div>
         </div>
     `;
 
-    const CLOSE_BTN = document.querySelector(".modal__close_btn")!;
-    CLOSE_BTN.addEventListener("click", closeModal);
+      const ADD_TO_CART_BTN = document.querySelector(".modal__add_to_cart")!;
+      ADD_TO_CART_BTN.addEventListener("click", addTocard);
 
-    const RADIO_INPUTS = document.querySelectorAll(
-      "input[type='radio']"
-    ) as NodeListOf<HTMLInputElement>;
+      const CLOSE_BTN = document.querySelector(".modal-close")!;
+      CLOSE_BTN.addEventListener("click", closeModal);
 
-    RADIO_INPUTS.forEach((radio) => {
-      radio.addEventListener("change", () =>
-        changeSize(radio, +selectedItem.price)
-      );
-    });
+      window.addEventListener("keydown", (e) => {
+        e.key === "Escape" && closeModal();
+      });
 
-    const CHECKBOX_INPUTS = document.querySelectorAll(
-      "input[type='checkbox']"
-    ) as NodeListOf<HTMLInputElement>;
+      const RADIO_INPUTS = document.querySelectorAll(
+        "input[type='radio']"
+      ) as NodeListOf<HTMLInputElement>;
 
-    CHECKBOX_INPUTS.forEach((checkbox) => {
-      checkbox.addEventListener("change", () =>
-        addAdditive(checkbox, +selectedItem.price)
-      );
-    });
-  }
+      RADIO_INPUTS.forEach((radio) => {
+        radio.addEventListener("change", () => changeSize(radio));
+      });
 
-  let sizePrice = 0;
-  let additivesPrice = 0;
+      const CHECKBOX_INPUTS = document.querySelectorAll(
+        "input[type='checkbox']"
+      ) as NodeListOf<HTMLInputElement>;
 
-  function changeSize(radio: HTMLInputElement, basePrice: number) {
-    const totalPrice = document.getElementById("total-price")!;
-    sizePrice = parseFloat(radio.dataset.price ?? "0");
-    totalPrice.textContent = `$${(
-      basePrice +
-      sizePrice +
-      additivesPrice
-    ).toFixed(2)}`;
-  }
+      CHECKBOX_INPUTS.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => addAdditive(checkbox));
+      });
+      function changeSize(radio: HTMLInputElement) {
+        size = radio.dataset.size || selectedItem.sizes.s.size;
+        sizeChar = radio.dataset.sizeChar || "s";
+        const totalPrice = document.getElementById("total-price")!;
+        sizePrice = parseFloat(radio.dataset.price || "0");
+        totalPrice.textContent = `$${(sizePrice + additivesPrice).toFixed(2)}`;
+      }
 
-  function addAdditive(checkbox: HTMLInputElement, basePrice: number) {
-    const totalPrice = document.getElementById("total-price")!;
-    const price = parseFloat(checkbox.dataset.price ?? "0");
-    if (checkbox.checked) {
-      additivesPrice += price;
-    } else {
-      additivesPrice -= price;
+      function addAdditive(checkbox: HTMLInputElement) {
+        const totalPrice = document.getElementById("total-price")!;
+        additives.push(checkbox.dataset.name || "");
+        const price = parseFloat(checkbox.dataset.price ?? "0");
+        if (checkbox.checked) {
+          additivesPrice += price;
+        } else {
+          additivesPrice -= price;
+        }
+
+        totalPrice.textContent = `$${(sizePrice + additivesPrice).toFixed(2)}`;
+      }
+
+      function closeModal() {
+        MODAL.classList.remove("modal-open");
+        const INPUTS = document.querySelectorAll(
+          ".filter-btn input"
+        ) as NodeListOf<HTMLInputElement>;
+        INPUTS.forEach((input) => (input.checked = false));
+        sizePrice = 0;
+        additivesPrice = 0;
+        enableScroll();
+      }
+
+      function addTocard() {
+        const CART_COUNT = document.getElementById("cart-count")!;
+        const products: Product[] = JSON.parse(
+          localStorage.getItem("products") || "[]"
+        );
+
+        if (
+          !products.length ||
+          products.find((product) => product.id !== selectedItem.id)
+        ) {
+          const product = {
+            id: selectedItem.id,
+            name: selectedItem.name,
+            img: images[selectedItem.category].find(
+              (img) => img.id === selectedItem.id
+            ),
+            size,
+            sizeChar,
+            additives,
+            totalPrice: `$${(sizePrice + additivesPrice).toFixed(2)}`,
+            price: `$${selectedItem.price}`,
+            discountPrice: selectedItem.discountPrice
+              ? `$${selectedItem.discountPrice}`
+              : "",
+          };
+
+          const updatedProducts = [...products, product];
+          localStorage.setItem("products", JSON.stringify(updatedProducts));
+
+          CART_COUNT.textContent = String(updatedProducts.length);
+        }
+        closeModal();
+      }
+
+      MODAL.addEventListener("click", function (e) {
+        if (e.target === MODAL) {
+          closeModal();
+        }
+      });
+    } catch (err) {
+      console.log(err);
     }
-
-    totalPrice.textContent = `$${(
-      basePrice +
-      sizePrice +
-      additivesPrice
-    ).toFixed(2)}`;
   }
-
-  function closeModal() {
-    MODAL.classList.remove("modal-open");
-    const INPUTS = document.querySelectorAll(
-      ".filter-btn input"
-    ) as NodeListOf<HTMLInputElement>;
-    INPUTS.forEach((input) => (input.checked = false));
-    sizePrice = 0;
-    additivesPrice = 0;
-    enableScroll();
-  }
-
-  MODAL.addEventListener("click", function (e) {
-    if (e.target === MODAL) {
-      closeModal();
-    }
-  });
 
   return renderMenu();
 }

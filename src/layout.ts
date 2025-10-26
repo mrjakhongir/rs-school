@@ -28,14 +28,30 @@ export function renderLayout(content: string): string {
               </li>
             </ul>
           </nav>
-          <a class="menu-link" href="/menu">
-            <span>Menu</span>
-            <img
-              class="cup"
-              src="../assets/images/icons/coffee-cup.svg"
-              alt="cup"
-            />
-          </a>
+          <div class='header-left'>
+            ${
+              localStorage.getItem("user") || localStorage.getItem("products")
+                ? `<a class='cart-bag' href='/cart'>
+                <img
+                class="cart-img"
+                src="../assets/images/icons/shopping-bag.svg"
+                alt="cup"
+                />
+                <span class="cart-count" id="cart-count">${
+                  JSON.parse(localStorage.products || "[]").length
+                }</span>
+              </a>`
+                : ""
+            }
+            <a class="menu-link" href="/menu">
+              <span>Menu</span>
+              <img
+                class="cup"
+                src="../assets/images/icons/coffee-cup.svg"
+                alt="cup"
+              />
+            </a>
+          </div>
           <div class="hamburger">
             <div></div>
             <div></div>

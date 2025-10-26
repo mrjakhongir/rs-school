@@ -70,6 +70,13 @@
   justify-content: center;
 }
 
+.menu__items--loading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .populate-item {
   animation: populateItem 0.3s ease-in-out;
 }
@@ -166,11 +173,31 @@
 }
 
 .modal-content {
+  position: relative;
   padding: 1.6rem;
   border-radius: 40px;
   background-color: var(--bg-body);
   margin: auto 19px;
   max-width: 800px;
+}
+
+.modal-close {
+  position: absolute;
+  top: -4.4rem;
+  right: 0;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close > img {
+  width: 11.31px;
 }
 
 .modal__img {
@@ -255,6 +282,10 @@ input {
   color: var(--text-dark);
 }
 
+.tooltip {
+  display: none;
+}
+
 .modal__price {
   display: flex;
   align-items: center;
@@ -280,7 +311,7 @@ input {
   height: 16px;
 }
 
-.modal__close_btn {
+.modal__add_to_cart {
   font-size: 1.6rem;
   line-height: 2.4rem;
   font-weight: 600;
@@ -342,10 +373,14 @@ input {
     transform: scale(1);
   }
 
-  .modal__close_btn:hover {
+  .modal__add_to_cart:hover {
     cursor: pointer;
     background-color: var(--bg-container);
     color: var(--text-light);
+  }
+
+  .filter-btn {
+    position: relative;
   }
 
   .filter-btn:hover {
@@ -353,6 +388,43 @@ input {
     background: var(--bg-container);
     color: var(--text-light);
     border-color: var(--bg-container);
+  }
+
+  .tooltip {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    top: -120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1d2939;
+    padding: 0.8rem 2rem;
+    transition: all 0.3s ease-in-out;
+    color: var(--text-light);
+    border-radius: 1.2rem;
+    display: block;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tooltip p {
+    white-space: nowrap;
+    line-height: 100%;
+    font-size: 1.4rem;
+  }
+
+  .tooltip p:first-child {
+    font-size: 1.4rem;
+    opacity: 0.8;
+    text-decoration: line-through;
+  }
+
+  .filter-btn:hover .tooltip {
+    opacity: 1;
+    z-index: 1;
   }
 
   .filter-btn:hover span:first-child {

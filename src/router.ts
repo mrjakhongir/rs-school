@@ -1,11 +1,14 @@
 import { renderLayout } from "./layout";
 import { CartPage } from "./pages/cart";
+import { setupCart } from "./pages/cart/setup-cart";
 import { HomePage } from "./pages/home";
 import setupHome from "./pages/home/setup-home";
 import { LoginPage } from "./pages/login";
+import { setupLogin } from "./pages/login/setup-login";
 import { MenuPage } from "./pages/menu";
 import setupMenu from "./pages/menu/setup-menu";
 import { RegsiterPage } from "./pages/register";
+import setupRegister from "./pages/register/setup-register";
 import { setupHeader } from "./setups/header";
 import "./style.css";
 
@@ -36,5 +39,17 @@ export function renderRoute() {
 
   if (path === "/home" || path === "/") {
     setupHome();
+  }
+
+  if (path === "/register") {
+    setupRegister();
+  }
+
+  if (path === "/cart") {
+    setupCart();
+  }
+
+  if (path === "/login") {
+    setupLogin();
   }
 }

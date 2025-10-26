@@ -1,6 +1,6 @@
 interface Additive {
   name: string;
-  "add-price": string;
+  price: string;
 }
 
 interface Sizes {
@@ -14,12 +14,14 @@ interface Size {
   "add-price": string;
 }
 
-export interface Product {
+export interface ProductItem {
+  id: number;
   name: string;
   description: string;
   img: string;
   price: string;
-  category: string;
+  category: "coffee" | "tea" | "dessert";
   sizes: Sizes;
   additives: Additive[];
+  discountPrice: string;
 }

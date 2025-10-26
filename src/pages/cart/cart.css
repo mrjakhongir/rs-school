@@ -1,51 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", serif;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 10px;
-}
-
-body {
-  background: var(--bg-body);
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-:root {
-  --text-dark: #403f3d;
-  --text-light: #e1d4c9;
-  --text-accent: #b0907a;
-  --bg-body: #e1d4c9;
-  --bg-container: #665f55;
-  --bg-backdrop: #403f3dcc;
-  --border-light: #c1b6ad;
-  --border-dark: #665f55;
-}
-
-img {
-  width: 100%;
-}
-
-.container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 1.6rem;
-}
-
 #cart {
   padding: 2rem 0 10rem;
 }
@@ -63,6 +15,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  margin-bottom: 4rem;
 }
 
 .cart-item {
@@ -87,7 +40,8 @@ img {
 .delete-btn {
   width: 30px;
   height: 30px;
-  border: 1px solid red;
+  background: none;
+  border: none;
 }
 
 .item-img-wrapper {
@@ -125,7 +79,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 4rem 0;
+  margin-bottom: 1rem;
 }
 
 .buttons {
@@ -133,9 +87,10 @@ img {
   align-items: center;
   justify-content: center;
   gap: 4rem;
+  padding: 0;
 }
 
-.login-btn {
+.buttons .login-btn {
   font-size: 1.6rem;
   line-height: 150%;
   font-weight: 600;
@@ -145,6 +100,17 @@ img {
   padding: 1rem 5.3rem;
   transition: all 0.2s ease-in-out;
   display: block;
+  margin: 0;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+}
+
+#address,
+#payment-type {
+  text-transform: capitalize;
 }
 
 @media (min-width: 768px) {
@@ -154,6 +120,10 @@ img {
 
   .login-btn {
     font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .delete-btn {
     cursor: pointer;
   }
 }

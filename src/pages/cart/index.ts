@@ -3,32 +3,37 @@ import "./cart.css";
 export function CartPage() {
   return `<div id="cart">
           <div class="container">
+            <div class='error error--hide'></div>
+            <div class='modal'>
+              <div class='loader'>
+                <div class='spinner'></div>
+              </div>
+            </div> 
             <h1 class="page-title">Cart</h1>
-            <section class="cart-items">
-              <div class="cart-item">
-                <div class="item-info">
-                  <button class="delete-btn">
-                    <!-- <img src="trash.svg" alt="trash can" /> -->
-                  </button>
-                  <div class="item-img-wrapper">
-                    <img class="item-img" src="" alt="" />
-                  </div>
-                  <div class="item-description">
-                    <h2>Marble cheesecake</h2>
-                    <p>50g, Berries, Nuts</p>
-                  </div>
-                </div>
-                <span class="item-price">$3.50</span>
+            <section class="cart-items"></section>
+
+            <div class="total">
+              <span class="item-price">Total:</span>
+              <span class="item-price" id="total-price">$0.00</span>
+            </div>
+
+            <section class='order-info' id='order-info'>
+              <div class="total">
+                <span class="item-price">Address:</span>
+                <span class="item-price" id="address">City, Street, 7</span>
               </div>
               <div class="total">
-                <span class="item-price">Total:</span>
-                <span class="item-price">$3.50</span>
+                <span class="item-price">Pay by:</span>
+                <span class="item-price" id="payment-type">Card</span>
               </div>
+              <button class="login-btn" id="confirm-btn" disabled>Confirm</button>
             </section>
-            <div class="buttons">
-              <button class="login-btn">Sign in</button>
-              <button class="login-btn">Registration</button>
+            
+            <div class="buttons" id="auth-btns">
+              <a class="login-btn" href="/login">Sign in</a>
+              <a class="login-btn" href="/register">Registration</a>
             </div>
+
           </div>
         </div>`;
 }
