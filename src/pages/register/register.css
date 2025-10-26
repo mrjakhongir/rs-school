@@ -1,0 +1,120 @@
+#register {
+  padding: 2rem 0 10rem;
+}
+
+#register-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+label {
+  user-select: none;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 1.6rem;
+  line-height: 150%;
+  font-weight: 400;
+  color: var(--text-dark);
+}
+
+.form-item > label::after {
+  content: "*";
+  color: red;
+  margin-left: 4px;
+}
+
+.form-item > input,
+.form-item > select {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 150%;
+  font-weight: 400;
+  color: var(--text-dark);
+  background: transparent;
+  border: 1px solid #c1b6ad;
+  border-radius: 1.2rem;
+  padding: 1.6rem 1.2rem;
+  outline: none;
+}
+
+.form-item > input::placeholder {
+  color: #a1a8b3;
+  font-weight: 400;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.radio-group span {
+  position: relative;
+  padding-left: 2.5rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-group span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-dark);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="radio"]:checked + span::before {
+  background-color: var(--border-body);
+  box-shadow: inset 0 0 0 4.5px var(--border-dark);
+}
+
+.register-btn {
+  font-size: 1.6rem;
+  line-height: 150%;
+  font-weight: 600;
+  border: 1px solid var(--border-dark);
+  background: none;
+  border-radius: 100px;
+  padding: 1rem 5.3rem;
+  transition: all 0.2s ease-in-out;
+  display: block;
+  margin: 4rem auto 0;
+}
+
+.error--hide {
+  display: none;
+}
+
+.error {
+  font-size: 1.6rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 6rem;
+  }
+
+  .register-btn {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+}
