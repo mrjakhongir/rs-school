@@ -9,13 +9,13 @@ export function renderLayout(content: string): string {
           <nav class="nav">
             <ul class="nav__links">
               <li>
-                <a href="/home#favorite-coffee">Favorite coffee</a>
+                <a >Favorite coffee</a>
               </li>
-              <li><a href="/home#about">About</a></li>
-              <li><a href="/home#mobile-app">Mobile app</a></li>
-              <li><a href="#contacts">Contact us</a></li>
+              <li><a >About</a></li>
+              <li><a >Mobile app</a></li>
+              <li><a >Contact us</a></li>
               <li>
-                <a href="./menu">
+                <a href="/menu">
                   <span>Menu</span>
                   <img
                     class="cup"
