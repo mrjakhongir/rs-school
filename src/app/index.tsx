@@ -3,7 +3,3 @@ function App() {
 }
 
 export default App;
-
-export function Greet() {
-  return 'ok';
-}
